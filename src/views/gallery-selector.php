@@ -5,11 +5,16 @@
 <div id="<?=$id?>" class="gallery-selector-widget">
     <div class="clearfix">
         <div class="form-group">
-            <label for=""><?=$title?></label>
-            <div class="no-image-selected">No images selected.</div>
-            <div class="selected-images"></div>
+            <!-- <label for=""><?=$title?></label> -->
+            <div class="no-image-selected" style="display:none">没有选择图片</div>
+            <div class="selected-images">
+                <div class="selected-img" style="background-image: url('<?= $defaultImage['url']?>')" data-image-id="<?= $defaultImage['id'] ?>" related-id="<?= $relatedId ?>"
+                        <input type="hidden" name="selected-image-ids[]" value="<?= $defaultImage['id']?>">
+                        <!-- <span class="glyphicon glyphicon-remove-sign remove-selected-image"> </span> -->
+                </div>
+            </div>
             <div class="clearfix"></div>
-            <button type="button" data-toggle="modal" data-target="#<?=$id?>-modal" class="btn btn-sm btn-danger btn-select-images" style="margin-top: 5px;">Select Images</button>
+            <button type="button" data-toggle="modal" data-target="#<?=$id?>-modal" class="btn btn-sm btn-default btn-select-images" style="margin-top: 5px;">选择图片</button>
         </div>
     </div>
 
@@ -22,19 +27,19 @@
                 </div>
 
                 <div class="modal-body">
-                    <ul class="nav nav-tabs" data-tabs="tabs" style="margin-bottom: 10px;">
+                   <!--  <ul class="nav nav-tabs" data-tabs="tabs" style="margin-bottom: 10px;">
                         <li class="active"><a href="#upload_new" data-toggle="tab">Upload</a></li>
                         <li><a href="#select_from_gallery" data-toggle="tab">Select from Gallery</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active gallery-upload-container" id="upload_new">
+                    </ul> -->
+                    <!-- <div class="tab-content"> -->
+                        <!-- <div class="tab-pane active gallery-upload-container" id="upload_new">
                             <div class="images-list">
                                 <div class="image-placeholder" data-upload-key="<?=$uploadKey?>">
                                     <span class="glyphicon glyphicon-plus"></span>
                                 </div>
                             </div>
                             <button type="button" class="btn btn-primary gallery-image-select" style="margin-left: 5px; margin-top: 10px;">Select</button>
-                        </div>
+                        </div> -->
                         <div class="tab-pane gallery-selector-container" id="select_from_gallery">
                             <div class="images-list">
                                 <?php foreach ($images as $index => $image): ?>
@@ -43,9 +48,9 @@
                                     </div>
                                 <?php endforeach ?>
                             </div>
-                            <button type="button" class="btn btn-primary gallery-image-select" style="margin-left: 5px; margin-top: 10px;">Select</button>
+                            <button type="button" class="btn btn-primary gallery-image-select" style="margin-left: 5px; margin-top: 10px;">确定</button>
                         </div>
-                    </div>
+                    <!-- </div> -->
                 </div>
             </div>
         </div>
@@ -66,15 +71,8 @@ $script = <<<JS
                 $.each(images, function(index, el){
                     if(el instanceof Object && el.id && el.url){
                         var name = (el.name) ? el.name : "{$id}_image_" + index;
-                        var extra_class = (el.selected) ? "added" : "";
-                        var template =  '<div class="gallery-selector-image ' + extra_class + '" data-image-id="' + el.id + '" data-image-name="' + name + '" style="background-image: url(\'' + el.url + '\');" data-image-url="' + el.url + '"><span class="glyphicon glyphicon-check"></span></div>';
+                        var template =  '<div class="gallery-selector-image" data-image-id="' + el.id + '" data-image-name="' + name + '" style="background-image: url(\'' + el.url + '\');" data-image-url="' + el.url + '"><span class="glyphicon glyphicon-check"></span></div>';
                         _container.append(template);
-
-                        if (el.selected) {
-                            template = '<div class="selected-img" style="background-image: url(\'' + el.url + '\');" data-image-id="' + el.id + '"><input type="hidden" name="selected-image-ids[]" value="' + el.id + '"><span class="glyphicon glyphicon-remove-sign remove-selected-image"></span></div>';
-                            _selected.append(template);
-                            _blank.hide();
-                        }
                     } else {
                         console.error("Invalid object found in images array: ", el);
                     }

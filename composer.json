@@ -1,13 +1,13 @@
 {
-    "name": "vivekmarakana/yii2-image-gallery-selector",
+    "name": "buddysoft/yii2-image-gallery-selector",
     "description": "multiple image selector from gallery for yii2",
     "type": "yii2-extension",
     "keywords": ["yii2","extension","gallery-selector","image-selector"],
     "license": "MIT",
     "authors": [
         {
-            "name": "Vivek Marakana",
-            "email": "vivek.marakana@gmail.com"
+            "name": "liuwanwei",
+            "email": "liuwanwei@gmail.com"
         }
     ],
     "require": {
@@ -15,8 +15,8 @@
     },
     "autoload": {
         "psr-4": {
-            "vivekmarakana\\widgets\\": "src",
-            "vivekmarakana\\helpers\\": "helpers"
+            "buddysoft\\widgets\\": "src",
+            "buddysoft\\helpers\\": "helpers"
         }
     }
 }

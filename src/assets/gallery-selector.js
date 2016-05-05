@@ -1,7 +1,7 @@
 jQuery(document).ready(function($){
     $(document).on('click','.gallery-selector-widget .gallery-selector-image',function(e){
         e.preventDefault();
-        $(this).toggleClass('added');
+        // $(this).toggleClass('added');
 
         var $this = $(this);
         var $context = $this.closest('.gallery-selector-widget');
@@ -9,6 +9,22 @@ jQuery(document).ready(function($){
         var $library = $context.find('.gallery-selector-container');
         var $selectedImageContainer = $context.find('.selected-images');
 
+        // 先关闭所有已经选择的图片，再选中当前图片，实现单选效果
+        $library.find('.gallery-selector-image.added').toggleClass('added');
+        $(this).toggleClass('added');
+
+        // 获取选中图像的 id
+        var imageId = $this.attr('data-image-id');
+
+        // 获取关联的隐藏图像 id 输入框的 id
+        var selectdImg = $selectedImageContainer.find('.selected-img');
+        var fieldId = selectdImg.attr('related-id');
+        // alert(fieldId);
+
+        // 修改关联的隐藏图像输入框的值
+        var inputField = $('#' + fieldId);
+        inputField.val(imageId);
+        
         //clear old images
         $selectedImageContainer.find('.selected-img:not(.uploaded-img)').remove();
 
@@ -21,9 +37,9 @@ jQuery(document).ready(function($){
 
             if ($selectedImageContainer.find('.selected-img[data-image-id="' + imageId + '"]').length == 0){
                 //template
-                var template =  '<div class="selected-img" style="background-image: url(\'' + imgSrc + '\')" data-image-id="' + imageId + '">'+
+                var template =  '<div class="selected-img" style="background-image: url(\'' + imgSrc + '\')" data-image-id="' + imageId + '" related-id="' + fieldId + '">' +
                                     '<input type="hidden" name="selected-image-ids[]" value="'+ imageId +'">'+
-                                    '<span class="glyphicon glyphicon-remove-sign remove-selected-image"></span>' +
+                                    //'<span class="glyphicon glyphicon-remove-sign remove-selected-image"></span>' +
                                 '</div>';
                 //append
                 $selectedImageContainer.append(template);
