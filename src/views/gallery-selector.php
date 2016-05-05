@@ -1,5 +1,5 @@
 <?php
-    \vivekmarakana\widgets\GallerySelectorAssets::register($this);
+    \buddysoft\widgets\GallerySelectorAssets::register($this);
 ?>
 
 <div id="<?=$id?>" class="gallery-selector-widget">

@@ -1,6 +1,6 @@
 <?php
 
-namespace vivekmarakana\widgets;
+namespace buddysoft\widgets;
 
 class GallerySelector extends \yii\base\Widget {
     const WIDGET_NAME = 'gallery-selector';

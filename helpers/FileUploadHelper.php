@@ -1,6 +1,6 @@
 <?php
 
-namespace vivekmarakana\helpers;
+namespace buddysoft\helpers;
 
 class FileUploadHelper {
     /**
