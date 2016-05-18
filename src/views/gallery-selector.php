@@ -4,7 +4,7 @@
 
 <div id="<?=$id?>" class="gallery-selector-widget">
     <div class="clearfix">
-        <div class="form-group">
+        <div>
             <!-- <label for=""><?=$title?></label> -->
             <div class="no-image-selected" style="display:none">没有选择图片</div>
             <div class="selected-images">
