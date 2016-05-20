@@ -1,7 +1,7 @@
 .gallery-upload-container,
 .gallery-selector-container{
     font-size: 0;
-    text-align: center;
+    /*text-align: center;*/
 }
 
 .gallery-selector-widget .selected-img,
@@ -80,8 +80,8 @@
 }
 
 .gallery-selector-widget .selected-img{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     margin: 0 5px 5px 5px;
 }
 
