@@ -30,7 +30,7 @@
                       <div class="form-group">
                         <!-- <label for="exampleInputName2">名字</label> -->
                         <input type="text" class="form-control" id="image-name" placeholder="输入食物名字进行搜索">
-                        <input type="text" class="form-control" id="image-name" placeholder="输入食物字母进行搜索">
+                        <input type="text" class="form-control" id="image-pinyin" placeholder="输入食物字母进行搜索">
                       </div>
                       <!-- <button type="submit" class="btn btn-default">查询</button> -->
                     </form>
@@ -41,7 +41,7 @@
                     <div class="tab-pane gallery-selector-container" id="select_from_gallery">
                         <div class="images-list">
                             <?php foreach ($images as $index => $image): ?>
-                                <div type="button" class="gallery-image-select gallery-selector-image" data-image-id="<?=$image['id']?>" data-image-name="<?=isset($image['name']) ? $image['name'] : $id . '-image-' . $index ?>" style="background-image: url('<?=$image['url']?>');" data-image-url="<?=$image['url']?>">
+                                <div type="button" class="gallery-selector-image gallery-image-select" data-image-id="<?=$image['id']?>" data-image-name="<?=isset($image['name']) ? $image['name'] : $id . '-image-' . $index ?>" style="background-image: url('<?=$image['url']?>');" data-image-url="<?=$image['url']?>">
                                     <span class="glyphicon glyphicon-check"></span>
                                     <h5 style="background:#eaded2;opacity:0.7; height:20px; padding:2px;"><?= $image['name'] ?></h5>
                                 </div>
@@ -65,7 +65,8 @@
         echo "\n  {\n";
         echo "    id:" . $image['id'] . ",";
         echo "    name:'" . $image['name'] . "',";
-        echo "    url:'" . $image['url'] . "'";
+        echo "    url:'" . $image['url'] . "',";
+        echo "    letter:'" . $image['firstLetter'] . "'";
         echo "\n  },";
     }
     echo "];";
@@ -108,6 +109,44 @@
         imagesList.add(imageDiv).appendTo(imagesList);
     });
  }
+
+ /**
+ *
+ * 根据用户输入的内容，筛选图片，并展示在界面中中
+ *
+ */
+ function filterImagesByPinyin(images, letter, divId){
+    console.log('log in filterImages:' + letter);
+
+    console.log(images);
+
+    filteredImages = [];
+    images.forEach(function (item, index, array){
+        console.log(item.letter);
+        if (item.letter.includes(letter)) {
+            filteredImages.push(item);
+        }
+    });
+
+    // 清空原先的图片列表
+    let elements = $('div #' + divId + ' .gallery-selector-image');
+    elements.remove();
+
+    // 把筛选后的图片一张张加入列表
+    let imagesList = $('div #' + divId + ' .images-list');
+    console.log(imagesList);
+    filteredImages.forEach(function(item, index, array){
+        imageDiv = '<div class="gallery-selector-image" ' + 
+            'data-image-id="' + item.id + '" ' + 
+            'data-image-name="' + item.name + '" ' + 
+            'style="background-image: url(' + '\'' + item.url + '\');" ' + 
+            'data-image-url="' + item.url + '"> ' + 
+            '<span class="glyphicon glyphicon-check"></span>' + 
+            '<h5 style="background:#eaded2;opacity:0.7; height:20px; padding:2px;">' + item.name + '</h5></div>';
+        console.log(imageDiv);
+        imagesList.add(imageDiv).appendTo(imagesList);
+    });
+ }
     
 </script>
 
@@ -121,6 +160,15 @@ $script = <<<JS
             // 用户按下回车后，开始根据输入的内容筛选照片
             if (event.keyCode == 13) {
                 filterImages($imageObjects, $(this).val(), '$id');
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        $('#$id input#image-pinyin').keydown(function(event){
+            // 用户按下回车后，开始根据输入的内容筛选照片
+            if (event.keyCode == 13) {
+                filterImagesByPinyin($imageObjects, $(this).val(), '$id');
                 event.preventDefault();
                 return false;
             }
